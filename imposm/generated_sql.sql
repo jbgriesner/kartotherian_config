@@ -807,7 +807,7 @@ CREATE OR REPLACE VIEW boundary_z3 AS (
 
 
 -- etldoc: ne_10m_admin_0_boundary_lines_land -> boundary_z4
--- etldoc: ne_10m_admin_1_states_provinces_lines_shp -> boundary_z4
+-- etldoc: ne_10m_admin_1_states_provinces_lines -> boundary_z4
 -- etldoc: osm_border_linestring_gen10 -> boundary_z4
 
 CREATE OR REPLACE VIEW boundary_z4 AS (
@@ -815,7 +815,7 @@ CREATE OR REPLACE VIEW boundary_z4 AS (
     FROM ne_10m_admin_0_boundary_lines_land
     UNION ALL
     SELECT geometry, 4 AS admin_level, false AS disputed, false AS maritime
-    FROM ne_10m_admin_1_states_provinces_lines_shp
+    FROM ne_10m_admin_1_states_provinces_lines
     WHERE scalerank <= 3 AND featurecla = 'Adm-1 boundary'
     UNION ALL
     SELECT geometry, admin_level, disputed, maritime
@@ -824,7 +824,7 @@ CREATE OR REPLACE VIEW boundary_z4 AS (
 );
 
 -- etldoc: ne_10m_admin_0_boundary_lines_land -> boundary_z5
--- etldoc: ne_10m_admin_1_states_provinces_lines_shp -> boundary_z5
+-- etldoc: ne_10m_admin_1_states_provinces_lines -> boundary_z5
 -- etldoc: osm_border_linestring_gen9 -> boundary_z5
 
 CREATE OR REPLACE VIEW boundary_z5 AS (
@@ -832,7 +832,7 @@ CREATE OR REPLACE VIEW boundary_z5 AS (
     FROM ne_10m_admin_0_boundary_lines_land
     UNION ALL
     SELECT geometry, 4 AS admin_level, false AS disputed, false AS maritime
-    FROM ne_10m_admin_1_states_provinces_lines_shp
+    FROM ne_10m_admin_1_states_provinces_lines
     WHERE scalerank <= 7 AND featurecla = 'Adm-1 boundary'
     UNION ALL
     SELECT geometry, admin_level, disputed, maritime
@@ -2251,7 +2251,7 @@ DROP TRIGGER IF EXISTS trigger_refresh ON place_state.updates;
 
 ALTER TABLE osm_state_point DROP CONSTRAINT IF EXISTS osm_state_point_rank_constraint;
 
--- etldoc: ne_10m_admin_1_states_provinces_shp   -> osm_state_point
+-- etldoc: ne_10m_admin_1_states_provinces   -> osm_state_point
 -- etldoc: osm_state_point                       -> osm_state_point
 
 CREATE OR REPLACE FUNCTION update_osm_state_point() RETURNS VOID AS $$
@@ -2259,7 +2259,7 @@ BEGIN
 
   WITH important_state_point AS (
       SELECT osm.geometry, osm.osm_id, osm.name, COALESCE(NULLIF(osm.name_en, ''), ne.name) AS name_en, ne.scalerank, ne.labelrank, ne.datarank
-      FROM ne_10m_admin_1_states_provinces_shp AS ne, osm_state_point AS osm
+      FROM ne_10m_admin_1_states_provinces AS ne, osm_state_point AS osm
       WHERE
       -- We only match whether the point is within the Natural Earth polygon
       -- because name matching is difficult
