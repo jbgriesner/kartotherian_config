@@ -318,14 +318,9 @@ def kill_all_access_to_main_db(ctx):
     close all connections to the main database
     """
     logging.info(f"killing all connections to the main database")
-    pid_removed = _execute_sql(
-        ctx,
-        f"SELECT pid FROM pg_stat_activity WHERE datname = '{ctx.pg.database}';",
-        db=ctx.pg.import_database,
-    )
     _execute_sql(
         ctx,
-        f"SELECT pg_terminate_backend (pid) FROM pg_stat_activity WHERE datname = '{ctx.pg.database}';",
+        f"SELECT pid, pg_terminate_backend (pid) FROM pg_stat_activity WHERE datname = '{ctx.pg.database}';",
         db=ctx.pg.import_database,
     )
 
