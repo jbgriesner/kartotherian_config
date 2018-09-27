@@ -112,7 +112,7 @@ def get_osm_data(ctx):
     if not _needs_to_download(ctx, new_osm_file, ctx.osm.url):
         return
 
-    ctx.run(f"wget --progress=dot:giga {ctx.osm.url} --directory-prefix={ctx.data_dir}")
+    ctx.run(f"wget --progress=dot:giga {ctx.osm.url} --output-document={new_osm_file}")
 
 
 @task
