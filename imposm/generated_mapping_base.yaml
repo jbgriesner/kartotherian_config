@@ -97,7 +97,6 @@ tables:
     - &id009 {key: name, name: name, type: string}
     - &id010 {key: 'name:en', name: name_en, type: string}
     - &id011 {key: 'name:de', name: name_de, type: string}
-    - {name: tags, type: hstore_tags}
     - &id012 {key: short_name, name: short_name, type: string}
     - &id013 {key: tunnel, name: is_tunnel, type: bool}
     - &id014 {key: bridge, name: is_bridge, type: bool}
@@ -354,8 +353,8 @@ tables:
     - {name: osm_id, type: id}
     - {name: geometry, type: geometry}
     - {key: highway, name: highway, type: string}
-    - &id025 {key: ref, name: ref, type: string}
-    - &id026 {key: network, name: network, type: string}
+    - &id024 {key: ref, name: ref, type: string}
+    - &id025 {key: network, name: network, type: string}
     - *id007
     - *id008
     - &id021 {key: level, name: level, type: integer}
@@ -363,7 +362,6 @@ tables:
     - *id009
     - *id010
     - *id011
-    - {name: tags, type: hstore_tags}
     - *id012
     - *id013
     - *id014
@@ -374,13 +372,11 @@ tables:
     - *id019
     - *id020
     - &id023 {key: public_transport, name: public_transport, type: string}
-    - &id024 {key: man_made, name: man_made, type: string}
     mapping:
       highway: [motorway, motorway_link, trunk, trunk_link, primary, primary_link,
         secondary, secondary_link, tertiary, tertiary_link, unclassified, residential,
         road, living_street, raceway, track, service, path, cycleway, bridleway, footway,
         corridor, pedestrian, steps]
-      man_made: [pier]
       public_transport: [platform]
     type: linestring
   highway_polygon:
@@ -394,10 +390,10 @@ tables:
     - *id022
     - {key: area, name: is_area, type: bool}
     - *id023
-    - *id024
+    - {key: man_made, name: man_made, type: string}
     mapping:
       highway: [path, cycleway, bridleway, footway, corridor, pedestrian, steps]
-      man_made: [bridge, pier]
+      man_made: [bridge]
       public_transport: [platform]
     type: polygon
   housenumber_point:
@@ -498,10 +494,6 @@ tables:
     fields:
     - {name: osm_id, type: id}
     - {name: geometry, type: validated_geometry}
-    - {key: name, name: name, type: string}
-    - {key: 'name:en', name: name_en, type: string}
-    - {key: 'name:de', name: name_de, type: string}
-    - {name: tags, type: hstore_tags}
     - {key: landuse, name: landuse, type: string}
     - {key: leisure, name: leisure, type: string}
     - {key: boundary, name: boundary, type: string}
@@ -529,8 +521,8 @@ tables:
     - {name: osm_id, type: id}
     - {name: geometry, type: geometry}
     - {key: railway, name: railway, type: string}
+    - *id024
     - *id025
-    - *id026
     - *id007
     - *id008
     - *id021
@@ -538,7 +530,6 @@ tables:
     - *id009
     - *id010
     - *id011
-    - {name: tags, type: hstore_tags}
     - *id012
     - *id013
     - *id014
@@ -558,8 +549,8 @@ tables:
     - {name: member, type: member_id}
     - {name: role, type: member_role}
     - {name: type, type: member_type}
+    - *id024
     - *id025
-    - *id026
     - *id009
     mapping:
       route: [road]
@@ -574,7 +565,6 @@ tables:
     - *id009
     - *id010
     - *id011
-    - {name: tags, type: hstore_tags}
     - *id012
     - *id013
     - *id014
@@ -624,7 +614,7 @@ tables:
     mapping:
       landuse: [reservoir]
       natural: [water, bay]
-      waterway: [river, riverbank, stream, canal, drain, ditch, dock]
+      waterway: [river, riverbank, stream, canal, drain, ditch]
     type: polygon
   waterway_linestring:
     fields:
